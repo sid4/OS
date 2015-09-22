@@ -1,5 +1,5 @@
 #include<prodcons.h>
-extern volatile int n;
+extern int n;
 void producer(int count){
 	
 	int i;

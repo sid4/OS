@@ -1,6 +1,6 @@
 #include<prodcons.h>
 
-extern volatile int n;
+extern int n;
 void consumer(int count){
 
 //printf("count %d/n",count);
