@@ -13,7 +13,7 @@
 
 //Definition for global variable 'n'
 
-volatile int n;
+ int n;
 
 /*Now global variable n will be on Heap so it is accessible all the processes i.e. consume and produce*/
 
@@ -29,7 +29,7 @@ shellcmd xsh_prodcons (int nargs , char *args[]){
 	if (nargs == 2) {
 		/* Output info for '--help' argument */
 
-		if (strncmp(args[1], "--help", 7) == 0 && strlen(args[1]) == 7) {
+		if (strncmp(args[1], "--help", 7) ==0) {
 		printf("Usage: %s\n\n", args[0]);
 		printf("Description:\n");
 		printf("\tExchange data between two processes\n");

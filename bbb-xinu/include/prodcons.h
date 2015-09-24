@@ -2,7 +2,7 @@
 
 
 /* Global variable for Producer Consumer */
-extern volatile int n; /* Decleration of global variable n */
+extern int n; /* Decleration of global variable n */
 
 /* function prototype */
 void consumer (int count);
