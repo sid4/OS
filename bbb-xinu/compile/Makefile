@@ -143,7 +143,7 @@ install: xinu
 	cp xinu.boot /tftpboot
 
 #--------------------------------------------------------------------------------
-# Locations of source directories and exceptions (.c and .[sS] files to exclude)
+  Locations of source directories and exceptions (.c and .[sS] files to exclude)
 #--------------------------------------------------------------------------------
 
 $(DEFSFILE):

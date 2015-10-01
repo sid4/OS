@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 /*-----------------------------------------------
- * xsh_reset - Warm software reset of the board
+ * xsh_reset - Warm software reset of the Beaglebone
  *-----------------------------------------------
  */
 
