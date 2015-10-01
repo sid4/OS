@@ -5,7 +5,7 @@
 #include "shprototypes.h"
 
 /************************************************************************/
-* Table of Xinu shell commands and the function associated with each	*
+/* Table of Xinu shell commands and the function associated with each	*/
 /************************************************************************/
 const	struct	cmdent	cmdtab[] = {
 	{"argecho",	TRUE,	xsh_argecho},
