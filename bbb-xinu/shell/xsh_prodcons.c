@@ -1,9 +1,6 @@
 /* xsh_prodcons.c - xsh_prodcons */
-
-#include <xinu.h>
-#include <string.h>
-#include <stdio.h>
 #include <prodcons.h>
+#include <string.h>
 #include <stdlib.h>
 
 /*--------------------------------------------------------------------------------------------
@@ -14,6 +11,7 @@
 //Definition for global variable 'n'
 
  int n;
+ sid32 consumed, produced;
 
 /*Now global variable n will be on Heap so it is accessible all the processes i.e. consume and produce*/
 
@@ -22,7 +20,7 @@ shellcmd xsh_prodcons (int nargs , char *args[]){
 	//Argument verifications and validations
 
       	int   count;             //local varible to hold count
-	
+
 
 	/* Check argument count */
 
@@ -58,6 +56,10 @@ shellcmd xsh_prodcons (int nargs , char *args[]){
 		fprintf(stderr, "%s:too many arguments\n", args[0]);
 		return 1;
 	}
+
+	/* Initalize semaphores*/
+	consumed = semcreate(1);
+	produced = semcreate(0);
 	
 	//create the process producer and consumer and put them in ready queue
 	resume(create(producer,1024, 20, "producer", 1, count ));

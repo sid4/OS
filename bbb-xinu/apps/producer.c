@@ -1,10 +1,12 @@
 #include<prodcons.h>
-extern volatile int n;
+
 void producer(int count){
-	
 	int i;
-	for(i=0;i<=count;i++){
-		n=i;
-		//printf("produced value= %d\n",n);		
+	n = 0;
+	for(i=0;i<count;i++){
+		wait(consumed);
+		n++;
+		printf("produced value= %d\n", n);		
+		signal(produced);
 	}	
 }
