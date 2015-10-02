@@ -9,6 +9,7 @@ void consumer(int count){
 		printf("consumed value= %d\n",n);
 		signal(consumed);
 	}
-
+semdelete(produced);
+semdelete(consumed);
 }
 
