@@ -4,7 +4,7 @@
 syscall future_set(future *f, int *value){
 	intmask mask;//interrupt mask
 	mask=disable();	
-	if((*f).state=FUTURE_VALID){
+	if((*f).state==FUTURE_VALID){
 		return SYSERR;	
 		restore(mask);	
 	}
