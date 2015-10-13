@@ -17,9 +17,6 @@ syscall future_get(future *f, int *value){
 	while((*f).state==FUTURE_WAITING){
 		sleepms(100);
 	}
-	printf("future struct val:%d",(*f).value);	
 	*value=(*f).value;
-	printf("val being returned:%d",*value);	
-
 	return 	OK;
 }

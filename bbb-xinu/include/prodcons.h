@@ -10,3 +10,4 @@ extern sid32 consumed, produced;
 /* function prototype */
 void consumer (int count);
 void producer (int count);
+

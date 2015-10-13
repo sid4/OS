@@ -2,12 +2,19 @@
 #include <prodcons.h>
 #include <string.h>
 #include <stdlib.h>
+#include <future.h>
+typedef unsigned int uint;
+
 
 /*--------------------------------------------------------------------------------------------
  * xsh_prodcons - create two processes and exchange data between them using a global variable
  *--------------------------------------------------------------------------------------------
  */
-
+/*
+Functions for futures
+*/
+uint future_cons(future *fut);
+uint future_prod(future *fut); 
 //Definition for global variable 'n'
 
  int n;
@@ -16,7 +23,7 @@
 /*Now global variable n will be on Heap so it is accessible all the processes i.e. consume and produce*/
 
 shellcmd xsh_prodcons (int nargs , char *args[]){
-	
+	int run_futures=0;
 	//Argument verifications and validations
 
       	int   count;             //local varible to hold count
@@ -25,8 +32,14 @@ shellcmd xsh_prodcons (int nargs , char *args[]){
 	/* Check argument count */
 
 	if (nargs == 2) {
-		/* Output info for '--help' argument */
 
+		/* Output info for '--help' argument */
+				/*
+		if(strncmp(args[2], "-f", 3) !=0){
+			fprintf(stderr, "%s:too many arguments\n", args[0]);
+			return 1;
+		}		
+		*/
 		if (strncmp(args[1], "--help", 7) ==0) {
 		printf("Usage: %s\n\n", args[0]);
 		printf("Description:\n");
@@ -34,9 +47,13 @@ shellcmd xsh_prodcons (int nargs , char *args[]){
 		printf("\tExample for invocation of function: prodcons [integer]\n");
 		printf("Options:\n");
 		printf("\t--help\tdisplay this help and exit\n");
-		
+		printf("\t-f\trun the futures version\n");		
 		}
 		
+		else if(strncmp(args[1], "-f", 3) ==0){
+				run_futures=1;
+		}
+
 		else if (atoi(args[1]) == 0){
 		fprintf(stderr, "%s: Please enter only integer value\n",args[0]);
 		fprintf(stderr, "Try '%s --help' for more information\n",args[0]);
@@ -56,14 +73,27 @@ shellcmd xsh_prodcons (int nargs , char *args[]){
 		fprintf(stderr, "%s:too many arguments\n", args[0]);
 		return 1;
 	}
+	if(run_futures){
+		future *f1, *f2, *f3;
+ 	        f1 = future_alloc(FUTURE_EXCLUSIVE);
+  		f2 = future_alloc(FUTURE_EXCLUSIVE);
+  		f3 = future_alloc(FUTURE_EXCLUSIVE);
+		resume( create(future_cons, 1024, 20, "fcons1", 1, f1) );
+		resume( create(future_prod, 1024, 20, "fprod1", 1, f1) );
+		resume( create(future_cons, 1024, 20, "fcons2", 1, f2) );
+		resume( create(future_prod, 1024, 20, "fprod2", 1, f2) );
+		resume( create(future_cons, 1024, 20, "fcons3", 1, f3) );
+		resume( create(future_prod, 1024, 20, "fprod3", 1, f3) );
 
-	/* Initalize semaphores*/
-	consumed = semcreate(1);
-	produced = semcreate(0);
+	}
+	else{		
+		/* Initalize semaphores*/
+		consumed = semcreate(1);
+		produced = semcreate(0);
 	
-	//create the process producer and consumer and put them in ready queue
-	resume(create(producer,1024, 20, "producer", 1, count ));
-	resume(create(consumer,1024, 20, "consumer", 1, count ));	
+		//create the process producer and consumer and put them in ready queue
+		resume(create(producer,1024, 20, "producer", 1, count ));
+		resume(create(consumer,1024, 20, "consumer", 1, count ));	
+	}
 	return 0;
-	
 }
