@@ -1,0 +1,11 @@
+Prateek:
+future.h (this header file defines the future structure which is used to synchronize the processes)
+future_alloc.c (this file creates a future and initializes FUTURE_EXCLUSIVE flag)
+future_cons.c (consumes the value present in the "value" variable of future when the state is FUTURE_VALID using future_get())
+xsh_prodcons.c ("prodcons -f" is used in this program to invoke the future part)
+
+Siddharth Jain:
+future_prod.c (produces a random vlaue and sets the value in fture using future_set())
+future_free.c(frees the memory of that particular future)
+future_get.c (Get the value of a future set by an operation and change the state of future from FUTURE_VALID to FUTURE_EMPTY)
+future_set.c (writes a value to the "value" variable of future if the state !=FUTURE_VALID and after writing changes the state of that future to FUTURE_VALID)
