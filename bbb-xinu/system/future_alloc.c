@@ -7,6 +7,10 @@ future* future_alloc(int future_flag){
 	(*f).flag=future_flag;
 	(*f).state=FUTURE_EMPTY;
 	(*f).pid=(pid32)-1;
+	f->set_queue=(custom_queue *)getmem(sizeof(custom_queue));
+	f->get_queue=(custom_queue *)getmem(sizeof(custom_queue));
+	custom_queue_init(10, f->set_queue);
+	custom_queue_init(10, f->get_queue);
 /*
 	(*f).value=(int *)getmem(sizeof(int));
 	*(*f).value=0;
