@@ -2,7 +2,7 @@
 #include <future.h>
 
 future* future_alloc(int future_flag){
-	printf("\nallocating future");
+	//printf("\nallocating future");
 	future *f=(future *)getmem(sizeof(future));
 	(*f).flag=future_flag;
 	(*f).state=FUTURE_EMPTY;
@@ -11,6 +11,10 @@ future* future_alloc(int future_flag){
 	f->get_queue=(custom_queue *)getmem(sizeof(custom_queue));
 	custom_queue_init(10, f->set_queue);
 	custom_queue_init(10, f->get_queue);
+	if(future_flag==FUTURE_QUEUE){
+		f->consumed=semcreate(1);
+		f->comsumer_exec_fin=semcreate(1);
+	}
 /*
 	(*f).value=(int *)getmem(sizeof(int));
 	*(*f).value=0;
