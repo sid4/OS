@@ -1,0 +1,12 @@
+Prateek:
+future.h (this header file defines the future structure and custom queue structure which is used to synchronize the processes)
+future_alloc.c (this file creates a future(with get, set queues;semaphore initialized ) and initializes FUTURE_EXCLUSIVE flag)
+future_cons.c (consumes the value present in the "value" variable of future when the state is FUTURE_VALID using future_get())
+xsh_prodcons.c ("prodcons -f" is used in this program to invoke the future part)
+
+Siddharth Jain:
+future_prod.c (produces a random vlaue and sets the value in future using future_set())
+future_free.c(frees the memory of that particular future and its associated queues)
+future_get.c (implements the FUTURE_SHARED, FUTURE_EXCLUSIVE and FUTURE_QUEUE cases)
+future_set.c (implements the FUTURE_SHARED, FUTURE_EXCLUSIVE and FUTURE_QUEUE cases)
+custom_queue.c(Member functions for maintaining queue)
