@@ -5,7 +5,7 @@ shellcmd ex9_1 (int nargs , char *args[]){
 	mask = disable();
 	curr = &memlist;
 	while (curr != NULL) {
-		kprintf("address:%p length:%zu",curr,curr->mlength);
+		printf("address:%u length:%u",curr,curr->mlength);
 		curr=curr->mnext;	
 	}
 	return 0;

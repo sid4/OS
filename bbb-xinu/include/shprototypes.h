@@ -81,3 +81,9 @@ shellcmd  xsh_prodcons	(int32, char *[]);
 
 /* in file xsh_reset.c*/
 shellcmd  xsh_reset	(int32, char *[]);
+
+/* in file ex9_1.c*/
+shellcmd  ex9_1		(int nargs , char *args[]);
+
+/* in file ex9_4.c*/
+shellcmd  ex9_4		(int nargs , char *args[]);
