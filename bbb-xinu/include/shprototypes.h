@@ -87,3 +87,6 @@ shellcmd  ex9_1		(int nargs , char *args[]);
 
 /* in file ex9_4.c*/
 shellcmd  ex9_4		(int nargs , char *args[]);
+
+/* in file ex9_7.c*/
+shellcmd  ex9_7		(int nargs , char *args[]);

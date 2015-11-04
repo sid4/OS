@@ -1,4 +1,5 @@
 #include<xinu.h>
+/*
 unsigned int stack_size=0;
 unsigned int iteration=20;
 unsigned int stack_eval(){
@@ -21,3 +22,4 @@ unsigned int stack_eval(){
 			
 	return OK;
 }
+*/

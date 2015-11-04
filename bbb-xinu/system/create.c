@@ -52,7 +52,15 @@ pid32	create(
 	prptr->prsem = -1;
 	prptr->prparent = (pid32)getpid();
 	prptr->prhasmsg = FALSE;
-
+	//changes for assignment	
+	//15+nargs-4
+	int dummy=0;
+	uint32	*temp= saddr;	
+	for(;dummy<ssize;dummy++){
+		*--temp=(char)'f';			
+	}
+	//changes end
+	
 	/* set up initial device descriptors for the shell		*/
 	prptr->prdesc[0] = CONSOLE;	/* stdin  is CONSOLE device	*/
 	prptr->prdesc[1] = CONSOLE;	/* stdout is CONSOLE device	*/
