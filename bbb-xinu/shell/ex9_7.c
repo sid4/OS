@@ -15,7 +15,7 @@ unsigned int stack_eval(){
 	return OK;
 }
 shellcmd ex9_7 (int nargs , char *args[]){
-	iteration=50;
+	iteration=100;
 	pid32 pid=create(stack_eval, 1024, 20, "stack_eval", 0);
 	kprintf("\nprocess for stack eval:%d\n",pid);
 	resume(pid);
