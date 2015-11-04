@@ -11,6 +11,7 @@ syscall	freemem(
 	  uint32	nbytes		/* Size of block in bytes	*/
 	)
 {
+	return OK;
 	intmask	mask;			/* Saved interrupt mask		*/
 	struct	memblk	*next, *prev, *block;
 	uint32	top;

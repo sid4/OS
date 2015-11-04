@@ -11,7 +11,7 @@ char  	*getmem(
 	)
 {
 	intmask	mask;			/* Saved interrupt mask		*/
-	struct	memblk	*prev, *curr, *leftover;
+	struct	memblk	*previous, *current, *leftover;
 
 	mask = disable();
 	if (nbytes == 0) {
@@ -19,30 +19,28 @@ char  	*getmem(
 		return (char *)SYSERR;
 	}
 
-	nbytes = (uint32) roundmb(nbytes);	/* Use memblk multiples	*/
+	previous = &memlist;
+	current = memlist.mnext;
+	while (current != NULL) {			/* Search free list	*/
 
-	prev = &memlist;
-	curr = memlist.mnext;
-	while (curr != NULL) {			/* Search free list	*/
-
-		if (curr->mlength == nbytes) {	/* Block is exact match	*/
-			prev->mnext = curr->mnext;
+		if (current->mlength == nbytes) {	/* Block is exact match	*/
+			previous->mnext = current->mnext;
 			memlist.mlength -= nbytes;
 			restore(mask);
-			return (char *)(curr);
+	return (char *)(current);
 
-		} else if (curr->mlength > nbytes) { /* Split big block	*/
-			leftover = (struct memblk *)((uint32) curr +
+		} else if (current->mlength > nbytes) { /* Split big block	*/
+			leftover = (struct memblk *)((uint32) current +
 					nbytes);
-			prev->mnext = leftover;
-			leftover->mnext = curr->mnext;
-			leftover->mlength = curr->mlength - nbytes;
+			previous->mnext = leftover;
+			leftover->mnext = current->mnext;
+			leftover->mlength = current->mlength - nbytes;
 			memlist.mlength -= nbytes;
 			restore(mask);
-			return (char *)(curr);
+	return (char *)(current);
 		} else {			/* Move to next block	*/
-			prev = curr;
-			curr = curr->mnext;
+			previous = current;
+			current = current->mnext;
 		}
 	}
 	restore(mask);

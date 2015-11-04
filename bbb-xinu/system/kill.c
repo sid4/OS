@@ -6,6 +6,8 @@
  *  kill  -  Kill a process and remove it from the system
  *------------------------------------------------------------------------
  */
+
+void print_freemem(pid32 pid);
 syscall	kill(
 	  pid32		pid		/* ID of process to kill	*/
 	)
@@ -29,8 +31,8 @@ syscall	kill(
 	for (i=0; i<3; i++) {
 		close(prptr->prdesc[i]);
 	}
-	freestk(prptr->prstkbase, prptr->prstklen);
-
+	//freestk(prptr->prstkbase, prptr->prstklen);
+	print_freemem(pid);
 	switch (prptr->prstate) {
 	case PR_CURR:
 		prptr->prstate = PR_FREE;	/* Suicide */
@@ -53,7 +55,21 @@ syscall	kill(
 	default:
 		prptr->prstate = PR_FREE;
 	}
-
 	restore(mask);
 	return OK;
+}
+
+
+void print_freemem(pid32 pid){
+	kprintf("\n*****in kill for process:%d*****\n",pid);
+	kprintf("\n*****free list start*****\n");
+	struct memblk *curr;
+
+	curr = &memlist;
+	while (curr != NULL) {
+		printf("\naddress:%u length:%u\n",curr,curr->mlength);
+		curr=curr->mnext;	
+	}
+
+	kprintf("\n*****free list end*****\n");
 }

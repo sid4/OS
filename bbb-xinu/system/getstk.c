@@ -20,8 +20,6 @@ char  	*getstk(
 		return (char *)SYSERR;
 	}
 
-	nbytes = (uint32) roundmb(nbytes);	/* Use mblock multiples	*/
-
 	prev = &memlist;
 	curr = memlist.mnext;
 	fits = NULL;
