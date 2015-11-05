@@ -30,6 +30,7 @@ syscall	kill(
 		close(prptr->prdesc[i]);
 	}
 	//for assignmrnt
+	if(prptr->prparent==demo_pid){
 	int count=0;
 	uint32 *base=(uint32 *)prptr->prstkbase;
 	int dummy=0;
@@ -39,7 +40,7 @@ syscall	kill(
 		}	
 	}
 	kprintf("\nmemory used:%d by pid:%d\n",count,pid);
-		
+	}
 	//for assignmrnt
 	freestk(prptr->prstkbase, prptr->prstklen);
 

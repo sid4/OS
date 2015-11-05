@@ -3,7 +3,7 @@
 #include <xinu.h>
 
 local	int newpid();
-
+int demo_pid=-1;
 #define	roundew(x)	( (x+3)& ~0x3)
 
 /*------------------------------------------------------------------------
@@ -54,11 +54,13 @@ pid32	create(
 	prptr->prhasmsg = FALSE;
 	//changes for assignment	
 	//15+nargs-4
+	if(getpid()==demo_pid){
 	int dummy=0;
 	uint32	*temp= saddr;	
 	for(;dummy<ssize;dummy++){
 		*--temp=(char)'f';			
 	}
+}
 	//changes end
 	
 	/* set up initial device descriptors for the shell		*/
