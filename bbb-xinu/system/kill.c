@@ -32,7 +32,10 @@ syscall	kill(
 		close(prptr->prdesc[i]);
 	}
 	//freestk(prptr->prstkbase, prptr->prstklen);
-	print_freemem(pid);
+	if(for_demo){
+		for_demo=0;
+		print_freemem(pid);
+	}
 	switch (prptr->prstate) {
 	case PR_CURR:
 		prptr->prstate = PR_FREE;	/* Suicide */

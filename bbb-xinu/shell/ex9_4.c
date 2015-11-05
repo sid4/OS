@@ -11,13 +11,15 @@ unsigned int demo_stk(){
 	getstk(200);
 	return OK;
 }
+		int for_demo=0;
 shellcmd ex9_4 (int nargs , char *args[]){
+	for_demo=1;
 	if(atoi(args[1])==0) {
 		pid32 pid=create(demo_heap, 1024, 20, "demo_heap", 0);
 		kprintf("\ndemonstrating permanent heap allocation with process:%d\n",pid);
 		print_freemem1();
 		resume(pid);
-		sleep(15);
+		//sleep(15);
 	}
 	else{
 		kprintf("\ndemonstrating permanent stack allocation");
@@ -25,7 +27,7 @@ shellcmd ex9_4 (int nargs , char *args[]){
 		pid32 pid=create(demo_stk, 1024, 20, "demo_stk", 0);
 		kprintf("\nWith process:%d\n",pid);
 		resume(pid);
-		sleep(15);
+		//sleep(15);
 	}
 	return 0;
 }

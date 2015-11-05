@@ -1,5 +1,3 @@
-/* getmem.c - getmem */
-
 #include <xinu.h>
 
 /*------------------------------------------------------------------------
@@ -7,38 +5,27 @@
  *------------------------------------------------------------------------
  */
 char  	*getmem(
-	  uint32	nbytes		/* Size of memory requested	*/
-	)
-{
+	  uint32	req_bytes		/* Size of memory requested	*/
+	){
 	intmask	mask;			/* Saved interrupt mask		*/
-	struct	memblk	*previous, *current, *leftover;
-
+	struct	memblk	*previous, *current, *remaining;
 	mask = disable();
-	if (nbytes == 0) {
+	if (req_bytes == 0) {
 		restore(mask);
 		return (char *)SYSERR;
 	}
-
 	previous = &memlist;
 	current = memlist.mnext;
-	while (current != NULL) {			/* Search free list	*/
-
-		if (current->mlength == nbytes) {	/* Block is exact match	*/
-			previous->mnext = current->mnext;
-			memlist.mlength -= nbytes;
+	while (current != NULL) {		/* Search free list	*/
+		if (current->mlength > req_bytes) { 
+			remaining = (struct memblk *)((uint32) current + req_bytes);
+			previous->mnext = remaining;
+			remaining->mnext = current->mnext;
+			remaining->mlength = current->mlength - req_bytes;
+			memlist.mlength -= req_bytes;
 			restore(mask);
-	return (char *)(current);
-
-		} else if (current->mlength > nbytes) { /* Split big block	*/
-			leftover = (struct memblk *)((uint32) current +
-					nbytes);
-			previous->mnext = leftover;
-			leftover->mnext = current->mnext;
-			leftover->mlength = current->mlength - nbytes;
-			memlist.mlength -= nbytes;
-			restore(mask);
-	return (char *)(current);
-		} else {			/* Move to next block	*/
+			return (char *)(current);
+		} else {			
 			previous = current;
 			current = current->mnext;
 		}

@@ -1,5 +1,3 @@
-/* getstk.c - getstk */
-
 #include <xinu.h>
 
 /*------------------------------------------------------------------------
@@ -8,8 +6,7 @@
  */
 char  	*getstk(
 	  uint32	nbytes		/* Size of memory requested	*/
-	)
-{
+	){
 	intmask	mask;			/* Saved interrupt mask		*/
 	struct	memblk	*prev, *curr;	/* Walk through memory list	*/
 	struct	memblk	*fits, *fitsprev; /* Record block that fits	*/
@@ -26,7 +23,7 @@ char  	*getstk(
 	fitsprev = NULL;  /* Just to avoid a compiler warning */
 
 	while (curr != NULL) {			/* Scan entire list	*/
-		if (curr->mlength >= nbytes) {	/* Record block address	*/
+		if (curr->mlength > nbytes) {	/* Record block address	*/
 			fits = curr;		/*   when request fits	*/
 			fitsprev = prev;
 		}
@@ -38,9 +35,7 @@ char  	*getstk(
 		restore(mask);
 		return (char *)SYSERR;
 	}
-	if (nbytes == fits->mlength) {		/* Block is exact match	*/
-		fitsprev->mnext = fits->mnext;
-	} else {				/* Remove top section	*/
+	else {				/* Remove top section	*/
 		fits->mlength -= nbytes;
 		fits = (struct memblk *)((uint32)fits + fits->mlength);
 	}
