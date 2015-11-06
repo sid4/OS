@@ -1,0 +1,28 @@
+Ex9.1 (in branch assignment-6)
+Shell command ex9_1 prints the free memory list
+
+function ex9_1: Iterates over the memlist and prints the data associated with them
+
+
+Ex9.4 (in branch assignment-6)
+Shell command ex9_4 with command line argument:
+0- for demonstrating permanent heap allocation
+1- for demonstrating permanent stack allocation
+
+Example: ex9_4 0
+
+In either case a free memory list is printed before running the process which allocates stack/heap memory and free memory list is printed when the corresponding demo process is getting killed
+
+The function getmem has been implemented so that for a given requirement there is no rounding and only block sizes >= are evaluate for returning the memory. This implementation doesn't handle the exact fit case and doesn't round the memory requirement to the nearest 8. Because of no rounding, the function operates faster and also since this rounding function is not called during runtime, comparatively this function takes less space in memory while executing. Similarly the exact fit case is not handled and only rudimentary checks are performed for allocating memory, hence there is less lines of code and less memory is consumed. Though this basic getmem() doesnot gurantee best utilization of the memory blocks and thus is comparatively more susceptible to memory fragmentation.
+
+The function getstk has been implemented so that for a given requirement there is no rounding and only block sizes >= are evaluated for returning the memory.This implementation doesn't handle the exact fit case and doesn't round the memory requirement to the nearest 8. Because of no rounding, the function operates faster and also since this rounding function is not called during runtime, comparatively this function takes less space in memory while executing. Similarly the exact fit case is not handled and only rudimentary checks are performed for allocating memory, hence there is less lines of code and less memory is consumed. Though this basic getmem() doesnot guranteed best utilization of the memory blocks and thus is comparatively more susceptible to memory fragmentation.
+
+The freestk call in kill has been removed, so as to keep the stack allocated by the process permanent.
+
+Ex9.7 (in branch assignment-6-3)
+Shell command ex9_7 with command line argument of the no. of times a function needs to be called recursively.
+Example: ex9_7 10
+Will call a function recursively 10 times
+
+Approach used:
+As soon as the stack is allocated for a process, 'f' is written all over the stack. Once the process is created, recursive function calls are made, which consume the stack memory. When the demo stack is getting killed, it is checked how many block of memory have been overwritten, this is also the maximum stack used by a process during its lifetime. 
