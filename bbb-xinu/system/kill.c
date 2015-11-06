@@ -32,8 +32,8 @@ syscall	kill(
 		close(prptr->prdesc[i]);
 	}
 	//freestk(prptr->prstkbase, prptr->prstklen);
-	if(for_demo){
-		for_demo=0;
+	if(for_demo==pid){
+		for_demo=-1;
 		print_freemem(pid);
 	}
 	switch (prptr->prstate) {
