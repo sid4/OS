@@ -1,10 +1,10 @@
-Ex9.1 (in branch assignment-6)
+*Ex9.1 (in branch assignment-6)
 Shell command ex9_1 prints the free memory list
 
 function ex9_1: Iterates over the memlist and prints the data associated with them
 
 
-Ex9.4 (in branch assignment-6)
+*Ex9.4 (in branch assignment-6)
 Shell command ex9_4 with command line argument:
 0- for demonstrating permanent heap allocation
 1- for demonstrating permanent stack allocation
@@ -19,7 +19,7 @@ The function getstk has been implemented so that for a given requirement there i
 
 The freestk call in kill has been removed, so as to keep the stack allocated by the process permanent.
 
-Ex9.7 (in branch assignment-6-3)
+*Ex9.7 (in branch assignment-6-3)
 Shell command ex9_7 with command line argument of the no. of times a function needs to be called recursively.
 Example: ex9_7 10
 Will call a function recursively 10 times
