@@ -1,4 +1,4 @@
-*Ex9.1 (in branch assignment-6)
+*Ex9.1 (in branch assignment-6) ->Prateek
 Shell command ex9_1 prints the free memory list
 
 function ex9_1: Iterates over the memlist and prints the data associated with them
@@ -6,8 +6,8 @@ function ex9_1: Iterates over the memlist and prints the data associated with th
 
 *Ex9.4 (in branch assignment-6)
 Shell command ex9_4 with command line argument:
-0- for demonstrating permanent heap allocation
-1- for demonstrating permanent stack allocation
+0- for demonstrating permanent heap allocation -->Prateek
+1- for demonstrating permanent stack allocation -->Siddharth
 
 Example: ex9_4 0
 
@@ -25,4 +25,7 @@ Example: ex9_7 10
 Will call a function recursively 10 times
 
 Approach used:
-As soon as the stack is allocated for a process, 'f' is written all over the stack. Once the process is created, recursive function calls are made, which consume the stack memory. When the demo stack is getting killed, it is checked how many block of memory have been overwritten, this is also the maximum stack used by a process during its lifetime. 
+As soon as the stack is allocated for a process, 'f' is written all over the stack. Once the process is created, recursive function calls are made, which consume the stack memory. When the demo stack is getting killed, it is checked how many block of memory have been overwritten, this is also the maximum stack used by a process during its lifetime.
+
+kill-->Prateek
+create-->Siddharth
