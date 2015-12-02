@@ -1,29 +1,29 @@
 #include <xinu.h>
-#include <future.h>
+#include <future_nw.h>
 
-int exec_future_shared(future *f, int *value);
-int exec_future_exclusive(future *f, int *value);
-int exec_future_queue(future *f, int *value);
+int exec_future_shared_nw(future_nw *f, char **value);
+int exec_future_exclusive_nw(future_nw *f, char **value);
+int exec_future_queue_nw(future_nw *f, char **value);
 
-syscall future_get(future *f, int *value){
+syscall future_get_nw(future_nw *f, char **value){
 	int status;
 	switch(f->flag){
 		case 	FUTURE_EXCLUSIVE:{
-		status=exec_future_exclusive(f,value);
+		status=exec_future_exclusive_nw(f,value);
 		if(status==SYSERR){
 			return SYSERR;		
 		}
 		break;		
 		}
 		case 	FUTURE_SHARED:{
-			status=exec_future_shared(f,value);
+			status=exec_future_shared_nw(f,value);
 			if(status==SYSERR){
 				return SYSERR;		
 			}
 		break;		
 		}
 		case 	FUTURE_QUEUE:{
-			status=exec_future_queue(f,value);
+			status=exec_future_queue_nw(f,value);
 			if(status==SYSERR){
 				return SYSERR;		
 			}
@@ -38,7 +38,7 @@ syscall future_get(future *f, int *value){
 }
 
 
-int exec_future_queue(future *f, int *value){	
+int exec_future_queue_nw(future_nw *f, char **value){	
 	if((*f).state==FUTURE_EMPTY){	
 		(*f).state=FUTURE_WAITING;
 	}
@@ -82,7 +82,7 @@ int exec_future_queue(future *f, int *value){
 }
 
 
-int exec_future_shared(future *f, int *value){	
+int exec_future_shared_nw(future_nw *f, char **value){	
 	if((*f).state==FUTURE_EMPTY){	
 		(*f).state=FUTURE_WAITING;
 	}
@@ -102,7 +102,7 @@ int exec_future_shared(future *f, int *value){
 	return 	OK;
 }
 
-int exec_future_exclusive(future *f, int *value){
+int exec_future_exclusive_nw(future_nw *f, char **value){
 	//checking pid
 	if((*f).pid==-1){
 	//setting pid
@@ -119,7 +119,7 @@ int exec_future_exclusive(future *f, int *value){
 	while((*f).state==FUTURE_WAITING){
 		sleepms(100);
 	}
-	value=(*f).value;
+	*value=(*f).value;
 	return 	OK;
 
 }
