@@ -1,0 +1,23 @@
+Instructions for running the program,
+
+Everytime you boot xinu:
+-Before xinu starts, make sure there is no static arp entry for xinu IP
+-Ping xinu from vm, after you start getting ICMP responses stop
+-run the desired program on xinu
+
+ex17.2 (Basic)
+-compile and start the sender.c with commandline arg for specifying the port no to bind socket to
+-Invocate the ex17_2 <vm ip> <vm port> <local port>
+-In this program, message is sent from xinu. The sent msg is received on vm side and a response is sent to Xinu. Xinu receives the reply and shows it on console. This is repeated 10 times
+
+
+ex17.2 (with futures)
+-compile and start the sender.c with commandline arg for specifying the port no to bind socket to
+-Invocate the ex17_2_2 <vm ip> <vm port> <local port>
+- Main process starts and creates a secondary process. Afetr which it waits for a response from VM with futures. The secondary process start and sends a message, as soon as it receives the message, it sets the future with this message. As the future is resolved, main process awakes and prints the message received. 
+
+ARP Expiry
+-arp entry struct has a new member, "resolved_at"- which is the time at which arp entry was resolved
+-After every one minute in clkhandler() (in clkhandler.c), it iterates the arp entries and any entry older than 5 minutes is freed.
+
+

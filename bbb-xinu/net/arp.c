@@ -14,6 +14,7 @@ void	arp_init(void)
 
 	for (i=1; i<ARP_SIZ; i++) {	/* Initialize cache to empty	*/
 		arpcache[i].arstate = AR_FREE;
+		arpcache[i].resolved_at=0;
 	}
 }
 
@@ -95,7 +96,7 @@ status	arp_resolve (
 	arptr->arstate = AR_PENDING;
 	arptr->arpaddr = nxthop;
 	arptr->arpid = currpid;
-
+	arptr->resolved_at=0;
 	/* Hand-craft an ARP Request packet */
 
 	memcpy(apkt.arp_ethdst, NetData.ethbcast, ETH_ADDR_LEN);
@@ -214,6 +215,7 @@ void	arp_in (
 		if (arptr->arstate == AR_PENDING) {
 			/* Mark resolved and notify waiting process */
 			arptr->arstate = AR_RESOLVED;
+			arptr->resolved_at=clktime;
 			send(arptr->arpid, OK);
 		}
 	}
@@ -250,6 +252,7 @@ void	arp_in (
 		}
 		arptr = &arpcache[slot];
 		arptr->arpaddr = pktptr->arp_sndpa;
+		arptr->resolved_at=clktime;
 		memcpy(arptr->arhaddr, pktptr->arp_sndha, ARP_HALEN);
 		arptr->arstate = AR_RESOLVED;
 	}

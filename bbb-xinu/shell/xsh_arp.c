@@ -42,13 +42,14 @@ static	void arp_dmp ()
 	/* Print entries from the ARP table */
 
 	printf("ARP cache:\n");
-	printf("   State Pid    IP Address    Hardware Address\n");
-	printf("   ----- --- --------------- -----------------\n");
+	printf("Resolved_at   State Pid    IP Address    Hardware Address\n");
+	printf("-----------   ----- --- --------------- -----------------\n");
 	for (i = 0; i < ARP_SIZ; i++) {
 		arptr = &arpcache[i];
 		if (arptr->arstate == AR_FREE) {
 			continue;
 		}
+		printf("%11d ", arptr->resolved_at);
 		switch(arptr->arstate) {
 		    case AR_PENDING:	printf("   PEND "); break;
 		    case AR_RESOLVED:	printf("   RESLV"); break;

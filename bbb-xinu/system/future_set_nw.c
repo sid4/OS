@@ -1,8 +1,8 @@
 #include <xinu.h>
+#include <string.h>
 #include <future_nw.h>
 
 syscall future_set_nw(future_nw *f, char *value){
-	//kprintf("\nValue received for set : %d", *value);
 	int was_empty=0;	
 	if(f->flag==FUTURE_QUEUE && custom_queue_is_empty(f->get_queue)){
 		custom_queue_enqueue(getpid(),f->set_queue);
@@ -19,9 +19,7 @@ syscall future_set_nw(future_nw *f, char *value){
 				return SYSERR;	
 				restore(mask);	
 			}
-			printf("/nhere");
-			f->value=value;
-			printf("/nhere1");
+			(*f).value=value;
 			(*f).state=FUTURE_VALID;
 			while(!custom_queue_is_empty(f->get_queue)){
 				//dequeue the suspended processes and resume it		

@@ -6,10 +6,12 @@ void send_rcv(char *remip_dot,uint32 remport,uint16 locport){
 	uint32 remip;
 	dot2ip(remip_dot,&remip);
 	int32 slot=udp_register(remip,remport,locport);
-	char mac[ETH_ADDR_LEN];	
+/*	char mac[ETH_ADDR_LEN];
+	
 	int arp_status=arp_resolve(remip,&mac);
 	printf("mac address resolved :%s",arp_status==OK?"true":"false");
 	printf("resolved mac address:%s",mac);
+*/
 	if(slot==SYSERR){
 		kprintf("\nFailed to register a udp slot. Exiting");
 		return;					
@@ -17,6 +19,7 @@ void send_rcv(char *remip_dot,uint32 remport,uint16 locport){
 	int i=0;
 	while(i<10){
 		char out_msg[OUT_MSG_LENGTH]="message from xinu";
+		kprintf("\nsending msg:\"%s\" to linux vm",out_msg);
 		int status_send=udp_send(slot,out_msg,OUT_MSG_LENGTH);
 		if(status_send==SYSERR){
 			kprintf("\nFailed to send message");		
@@ -31,7 +34,7 @@ void send_rcv(char *remip_dot,uint32 remport,uint16 locport){
 				kprintf("\nError occured while receiving msg");
 		}			
 		else{
-			kprintf("\nrcvd msg:%s",in_msg);		
+			kprintf("\nMsg received from linux vm:%s",in_msg);		
 		}
 		}
 		i++;	

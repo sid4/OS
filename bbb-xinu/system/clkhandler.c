@@ -33,7 +33,19 @@ void	clkhandler()
 		clktime++;
 		count1000 = 1000;
 	}
-
+	/*clearing the expired arp entries*/
+	if(clktime%60==0){
+		int arp_entry_indx=0;
+		for (arp_entry_indx=0; arp_entry_indx<ARP_SIZ; arp_entry_indx++) {
+		struct	arpentry *arptr = &arpcache[arp_entry_indx];
+		if (arptr->arstate == AR_FREE) {
+			continue;
+		}
+		if (arptr->arstate==AR_RESOLVED && (clktime-arptr->resolved_at)>300) { /* entry has expired	*/
+			arptr->arstate = AR_FREE;
+		}
+	}	
+	}
 	/* check if sleep queue is empty */
 
 	if(!isempty(sleepq)) {
