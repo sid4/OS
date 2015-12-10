@@ -93,3 +93,6 @@ shellcmd  ex17_2	(int nargs , char *args[]);
 
 /* in file ex17_2_2.c*/
 shellcmd  ex17_2_2	(int nargs , char *args[]);
+
+/*in file xsh_fstest.c*/
+shellcmd xsh_fstest(int nargs, char *args[]);
