@@ -36,6 +36,7 @@ struct inode {
 struct filetable {
   int state;
   int fileptr;
+  int flag;
   struct dirent *de;
   struct inode in;
 };
@@ -67,7 +68,7 @@ int fs_create(char *filename, int mode);
 int fs_seek(int fd, int offset);
 int fs_read(int fd, void *buf, int nbytes);
 int fs_write(int fd, void *buf, int nbytes);
-
+void reset_oft();
 /* filesystem functions */
 int fs_mkfs(int dev, int num_inodes);
 int fs_mount(int dev);
@@ -78,6 +79,7 @@ int fs_put_inode_by_num(int dev, int inode_number, struct inode *in);
 int fs_setmaskbit(int b);
 int fs_clearmaskbit(int b);
 int fs_getmaskbit(int b);
+int fs_get_free_bit_index();
 
 /*
   Block Store functions
@@ -93,4 +95,3 @@ void fs_printfreemask(void);
 void fs_print_fsd(void);
 
 #endif /* FS_H */
-

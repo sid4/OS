@@ -65,8 +65,7 @@ bs_bread(int dev, int block, int offset, void *buf, int len) {
 }
 
 
-int 
-bs_bwrite(int dev, int block, int offset, void * buf, int len) {
+int bs_bwrite(int dev, int block, int offset, void * buf, int len) {
   char *bbase;
 
   if (dev != 0) {

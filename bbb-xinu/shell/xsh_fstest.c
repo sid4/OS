@@ -53,8 +53,9 @@ void fs_testbitmask(void);
 
     bs_mkdev(0, MDEV_BLOCK_SIZE, MDEV_NUM_BLOCKS); /* device "0" and default blocksize (=0) and count */
     fs_mkfs(0,DEFAULT_NUM_INODES); /* bsdev 0*/
+    fs_init(0);/*initializing root dir in file system*/
     fs_testbitmask();
-    
+void reset_oft();
     buf1 = getmem(SIZE*sizeof(char));
     buf2 = getmem(SIZE*sizeof(char));
     
