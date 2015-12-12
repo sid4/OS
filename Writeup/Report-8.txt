@@ -1,0 +1,44 @@
+**Description & Learning:
+Helped understand the higher level concepts of file system.
+
+-fs_open
+*Checks if requested file exists on the file system
+*Checks if file is already open in the file table entries
+*If file is not already open, creates file table entry and returns the index it
+
+-fs_close
+*Change the file table entry flag corresponding to the given file
+
+-fs_create
+*creates a indode and intializes it elements
+*creates a direntry for the corresponding file in root folder
+*writes all the changes to disk
+*opens the file and returns file descriptor of it
+
+-fs_seek
+*resets the file pointer to given offset if possible
+
+-fs_read
+*refers the file table entry and determines the block to be read and the corresponding offset
+*reads the block into block cache
+*copies the corresponding content into buffer, which is to be returned
+
+-fs_write
+*refers the file table entry and determines the block to write to and the corresponding offset
+*reads the block into block cache
+*writes the data to it
+*writes the block cache data to disk
+
+
+**Contribution:
+
+Siddharth
+-fs_open
+-fs_close
+-fs_create
+
+Prateek
+-fs_seek
+-fs_read
+-fs_write
+
