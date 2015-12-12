@@ -55,7 +55,7 @@ void fs_testbitmask(void);
     fs_mkfs(0,DEFAULT_NUM_INODES); /* bsdev 0*/
     fs_init(0);/*initializing root dir in file system*/
     fs_testbitmask();
-void reset_oft();
+    void reset_oft();
     buf1 = getmem(SIZE*sizeof(char));
     buf2 = getmem(SIZE*sizeof(char));
     
@@ -69,7 +69,7 @@ void reset_oft();
         j = j+33;
         buf1[i] = (char) j;
     }
-    
+    //printf("\nbuf:%s\n",buf1);
     rval = fs_write(fd,buf1,SIZE);
     if(rval == 0 || rval != SIZE )
     {

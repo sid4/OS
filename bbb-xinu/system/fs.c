@@ -95,9 +95,7 @@ int fs_create(char *filename, int mode){
 		kprintf("Invalid mode");
 		return SYSERR;	
 	}
-	/*struct dirent *file=(struct dirent *)getmem(sizeof(struct dirent));
-	memcpy(file->name,filename,strlen(filename));
-	*/struct inode file_node={0};
+	struct inode file_node={0};
 	file_node.id=fsd.inodes_used++;
 	file_node.type=INODE_TYPE_FILE;
 	file_node.device=0;
@@ -110,10 +108,8 @@ int fs_create(char *filename, int mode){
 		}		
 		file_node.blocks[0]=fs_get_free_bit_index();
 		fsd.root_dir.entry[fsd.root_dir.numentries].inode_num=file_node.id;
-
 		memcpy(&fsd.root_dir.entry[fsd.root_dir.numentries].name,filename,strlen(filename));
-
-fsd.root_dir.numentries++;
+		fsd.root_dir.numentries++;
 		fs_setmaskbit(free_mask_bit);
 		fs_put_inode_by_num(0, file_node.id, &file_node);
 		bs_bwrite(dev0, SB_BLK, 0, &fsd, sizeof(struct fsystem));
@@ -180,30 +176,26 @@ int fs_read(int fd, void *buf, int nbytes){
 int fs_write(int fd, void *buf, int nbytes){
 	int block,index, offset,to_write_c,write_c_to_block=0, write_c_actual=0;
 	if((oft[fd].flag==O_WRONLY||oft[fd].flag==O_RDWR) && oft[fd].state!=FSTATE_CLOSED ){
-		struct inode in = oft[fd].in;
-/*
-//check for errors here
-	in.size = in.size - (in.size - oft[fd].fileptr);//if the fileptr was readjusted using fseek() the size is reduced to calculate the correct file size at the end
-*/
 		index = oft[fd].fileptr / dev0_blocksize;
         	block= oft[fd].in.blocks[index];
 		if(block== -1){
 			block = fs_get_free_bit_index();
 			oft[fd].in.blocks[index] = block;
 		}
+		to_write_c = nbytes;		
 		offset = oft[fd].fileptr % dev0_blocksize;
-		to_write_c = nbytes;
 		while (to_write_c > 0){
-			fs_setmaskbit(block);
-			if(dev0_blocksize-offset > to_write_c){
-				write_c_to_block = to_write_c;
-			}
-			else{
-				write_c_to_block = dev0_blocksize - offset;
-			}
-//TODO write to cache block
-			if(bs_bwrite(dev0,block,offset,&buf[write_c_actual],write_c_to_block ) == SYSERR){
-				kprintf("\nERROR!!In file writing");
+			write_c_to_block=dev0_blocksize-offset>to_write_c?to_write_c:(dev0_blocksize - offset);
+			reset_block_cache();
+			fs_setmaskbit(block);			
+			//load the block to block_cache	
+			bs_bread(0,block, 0, &block_cache, 512);
+			//write data to block_cache
+			memcpy(block_cache+offset,buf+write_c_actual, write_c_to_block);
+			//write cached block to disk			
+			int write_status=bs_bwrite(dev0,block,0,&block_cache,512);
+			if(write_status==SYSERR){
+				kprintf("\n Error occured while writing block");
 				oft[fd].in.size += write_c_actual;
 				return write_c_actual;
 			}
@@ -219,7 +211,7 @@ int fs_write(int fd, void *buf, int nbytes){
 		return write_c_actual;		
 	}
 	else{
-		kprintf("File not open with r or rw flag or file already closed");
+		kprintf("File not open with w or rw flag or file already closed");
 		return SYSERR;
 	}
 
